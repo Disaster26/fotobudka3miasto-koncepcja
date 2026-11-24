@@ -5,11 +5,11 @@ var d=document;
 var top=d.getElementById('top'),h=top.querySelector('.hamb');
 h.addEventListener('click',function(){var o=top.classList.toggle('otwm');h.setAttribute('aria-expanded',o);d.body.style.overflow=o?'hidden':''});
 var grupy=top.querySelectorAll('.gr');
-top.querySelectorAll('.grb').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();var li=b.parentNode,o=!li.classList.contains('otw');grupy.forEach(function(g){if(g!==li&&window.innerWidth>1100){g.classList.remove('otw');var x=g.querySelector('.grb');x&&x.setAttribute('aria-expanded',false)}});li.classList.toggle('otw',o);b.setAttribute('aria-expanded',o)})});
-d.addEventListener('click',function(e){if(window.innerWidth>1100&&!top.contains(e.target))grupy.forEach(function(g){g.classList.remove('otw')})});
+top.querySelectorAll('.grb').forEach(function(b){b.addEventListener('click',function(e){e.stopPropagation();var li=b.parentNode,o=!li.classList.contains('otw');grupy.forEach(function(g){if(g!==li&&!matchMedia('(max-width:1100px)').matches){g.classList.remove('otw');var x=g.querySelector('.grb');x&&x.setAttribute('aria-expanded',false)}});li.classList.toggle('otw',o);b.setAttribute('aria-expanded',o)})});
+d.addEventListener('click',function(e){if(!matchMedia('(max-width:1100px)').matches&&!top.contains(e.target))grupy.forEach(function(g){g.classList.remove('otw')})});
 d.addEventListener('keydown',function(e){if(e.key==='Escape'){grupy.forEach(function(g){g.classList.remove('otw')});if(top.classList.contains('otwm')){top.classList.remove('otwm');h.setAttribute('aria-expanded',false);d.body.style.overflow=''}}});
 // w menu mobilnym grupa z biezaca podstrona od razu rozwinieta
-if(window.innerWidth<=1100){var ak=top.querySelector('.gr.akt');if(ak&&ak.querySelector('.grb')){ak.classList.add('otw');ak.querySelector('.grb').setAttribute('aria-expanded',true)}}
+if(matchMedia('(max-width:1100px)').matches){var ak=top.querySelector('.gr.akt');if(ak&&ak.querySelector('.grb')){ak.classList.add('otw');ak.querySelector('.grb').setAttribute('aria-expanded',true)}}
 top.querySelectorAll('.menu a').forEach(function(a){a.addEventListener('click',function(){top.classList.remove('otwm');d.body.style.overflow=''})});
 
 // tasmy: strzalki + przeciaganie myszą
