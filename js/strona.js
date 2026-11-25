@@ -62,8 +62,10 @@ d.querySelectorAll('.form').forEach(function(f){
 });
 
 // zgody cookies
-var ck=d.getElementById('cookies'),ust=ck.querySelector('.ck-ust'),zap=ck.querySelector('[data-ck=zapisz]'),Z=null;
+// wersja do akceptacji nie ma banera: wtedy brak zgod = mapa od razu
+var ck=d.getElementById('cookies')||d.createElement('div'),ust=ck.querySelector('.ck-ust'),zap=ck.querySelector('[data-ck=zapisz]'),Z=null;
 try{Z=JSON.parse(localStorage.getItem('f3m_zgody')||'null');if(Z&&Z.t<Date.now()-31536000000)Z=null}catch(e){}
+if(C.tryb!=='produkcja')Z=null;
 function zapisz(z){z.t=Date.now();Z=z;try{localStorage.setItem('f3m_zgody',JSON.stringify(z))}catch(e){}ck.hidden=true;zastosuj()}
 ck.addEventListener('click',function(e){var b=e.target.closest('[data-ck]');if(!b)return;var k=b.dataset.ck;
   if(k==='wszystkie')zapisz({a:1,m:1,mp:1});
@@ -71,7 +73,7 @@ ck.addEventListener('click',function(e){var b=e.target.closest('[data-ck]');if(!
   if(k==='ustawienia'){ust.hidden=false;zap.hidden=false;b.hidden=true;if(Z){ust.querySelector('[name=a]').checked=!!Z.a;ust.querySelector('[name=m]').checked=!!Z.m;ust.querySelector('[name=mp]').checked=Z.mp!==0}}
   if(k==='zapisz')zapisz({a:ust.querySelector('[name=a]').checked?1:0,m:ust.querySelector('[name=m]').checked?1:0,mp:ust.querySelector('[name=mp]').checked?1:0});
 });
-d.querySelectorAll('[data-cookies]').forEach(function(b){b.addEventListener('click',function(){ck.hidden=false;ck.querySelector('[data-ck=ustawienia]').click()})});
+d.querySelectorAll('[data-cookies]').forEach(function(b){if(!ust){b.hidden=true;return}b.addEventListener('click',function(){ck.hidden=false;ck.querySelector('[data-ck=ustawienia]').click()})});
 var tagiWczytane=false;
 function zastosuj(){
   if(C.tryb==='produkcja'&&Z&&window.gtag){
