@@ -54,7 +54,7 @@ d.querySelectorAll('.form').forEach(function(f){
     if(C.tryb!=='produkcja'){w.textContent='To wersja do akceptacji: po uruchomieniu na fotobudka3miasto.pl zapytanie trafi od razu na kontakt@fotobudka3miasto.pl, a nadawca dostanie potwierdzenie.';w.classList.add('ok');return}
     var b=f.querySelector('button[type=submit]');b.disabled=true;w.textContent='Wysyłam...';
     fetch(f.action,{method:'POST',body:new FormData(f),headers:{'Accept':'application/json'}}).then(function(r){return r.json()}).then(function(j){
-      if(j&&j.ok){f.reset();if(zr)zr.value=location.pathname;w.textContent='Dziękujemy! Zapytanie zostało wysłane, odpiszemy najszybciej, jak to możliwe.';w.classList.add('ok');
+      if(j&&j.ok){var mz=f.mail&&f.mail.value;f.reset();if(zr)zr.value=location.pathname;w.textContent='Dziękujemy! Zapytanie zostało wysłane, odpiszemy najszybciej, jak to możliwe.'+(mz?' Potwierdzenie wysłaliśmy na podany e-mail - jeśli go nie widać, zajrzyj do folderu Spam.':'');w.classList.add('ok');
         if(window.gtag)gtag('event','generate_lead',{form_location:location.pathname})}
       else{w.textContent=(j&&j.blad)||'Nie udało się wysłać. Zadzwoń: 604 841 511.';w.classList.add('zle')}
     }).catch(function(){w.textContent='Nie udało się wysłać. Zadzwoń: 604 841 511 albo napisz: kontakt@fotobudka3miasto.pl.';w.classList.add('zle')}).then(function(){b.disabled=false});
